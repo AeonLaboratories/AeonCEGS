@@ -10,6 +10,7 @@
     <Company>Aeon Laboratories</Company>
     <Description>Carbon Extraction and Graphitization System. This is a sample application demonstrating Aeon's Hardware Automation Control System (HACS).</Description>
     <Copyright>Aeon Laboratories, 2020</Copyright>
+    <RepositoryUrl>https://github.com/AeonLaboratories/AeonCegs</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
