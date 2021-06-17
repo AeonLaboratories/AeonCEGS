@@ -1,0 +1,37 @@
+﻿<views:HacsCanvas x:Class="AeonCegs.Views.VTT"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:AeonCegs.Views"
+    xmlns:views="clr-namespace:HACS.WPF.Views;assembly=HACS.WPF"
+    mc:Ignorable="d" 
+    Width="136" Height="87"
+    d:DesignHeight="87" d:DesignWidth="136"
+    >
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 6.5 34.5 h 8 v -8 h 6 v 8 h 8 v 6 h -8 v 8 h -6 v -8 h -8 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" StrokeThickness="1" Stroke="{DynamicResource EdgeBrush}" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Data="m 77.5 13.5 v -4 h 9 c 3.5 0 6 2.5 6 6 v 11 h -4 v -11 c 0 -1 -1 -2 -2 -2 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 55.5 7.5 v 0 h 7 v -7 h 8 v 7 h 7 v 8 h -7 v 7 h -8 v -7 h -7 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" StrokeThickness="1" Stroke="{DynamicResource EdgeBrush}" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Data="m 56.5 39.5 v -4 h 6 c 1 0 2 -1 2 -2 v -11 h 4 v 11 c 0 3.5 -2.5 6 -6 6 z"/>
+
+    <Path Fill="{DynamicResource GlassBrush}" StrokeThickness="1" Stroke="{DynamicResource EdgeBrush}" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Data="M 85.5 50.5 V 81 c 0 7 10 7 10 0 V 50.5 Z"/>
+
+    <Path Fill="{DynamicResource BodyBrush}" StrokeThickness="1" Stroke="{DynamicResource EdgeBrush}" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Data="M 88.5 81 V 50.5 h -4 v -21 h 2 v -3 h 8 v 3 h 2 v 2 h 5 v 12 h -5 v 7 h -4 V 81"/>
+    
+    <Line Stroke="{DynamicResource EdgeBrush}" X1="3" Canvas.Top="50.5" Canvas.Left="89"/>
+
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 15.5 24.5 h 4 v 2 h -4 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 4.5 35.5 h 2 v 4 h -2 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 15.5 48.5 h 4 v 2 h -4 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 28.5 35.5 h 2 v 4 h -2 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 13.5 50.5 h 8 v 4 h -8 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 30.5 9.5 h 25 v 4 h -25 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 13.5 72.5 h 8 v 4 h -8 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 101.5 41.5 v 0 -8 h 13 v -13 h 8 v 13 h 13 v 8 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 13.5 20.5 h 8 v 4 h -8 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 0.5 33.5 h 4 v 8 h -4 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 30.5 33.5 h 4 v 8 h -4 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 52.5 33.5 h 4 v 8 h -4 z"/>
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 26.5 7.5 h 4 v 8 h -4 z"/>
+
+</views:HacsCanvas>

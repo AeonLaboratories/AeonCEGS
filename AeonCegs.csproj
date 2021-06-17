@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon></ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Authors>Jim Wilson, Tyler Wilson</Authors>
+    <Company>Aeon Laboratories</Company>
+    <Description>Carbon Extraction and Graphitization System. This is a sample application demonstrating Aeon's Hardware Automation Control System (HACS).</Description>
+    <Copyright>Aeon Laboratories, 2020</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Page Remove="Resources\Preferences.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HACS.WPF\HACS.WPF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

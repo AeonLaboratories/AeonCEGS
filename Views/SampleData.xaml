@@ -1,0 +1,90 @@
+﻿<views:View x:Class="AeonCegs.Views.SampleData"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:AeonCegs.Views"
+	xmlns:views="clr-namespace:HACS.WPF.Views;assembly=HACS.WPF"	       
+    mc:Ignorable="d" 
+	x:Name="Field"
+	IsHitTestVisible="False"
+	>
+	
+	<DockPanel>
+		<StackPanel Grid.IsSharedSizeScope="True" Margin="10,10,10,0" DockPanel.Dock="Top">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition SharedSizeGroup="Label"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition SharedSizeGroup="Standard"/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Text="Lab ID:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+				<TextBox x:Name="LabIDTextBox" Margin="5,0,0,0" Text="{Binding Component.SampleInfo.LabId, ElementName=Field}" Grid.Column="1" Grid.Row="0" VerticalContentAlignment="Center"/>
+			</Grid>
+
+			<Grid Margin="0,5,0,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition SharedSizeGroup="Label"/>
+					<ColumnDefinition/>
+					<ColumnDefinition SharedSizeGroup="Remainder"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition SharedSizeGroup="Standard"/>
+				</Grid.RowDefinitions>
+				<TextBlock Text="Mass:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+				<TextBox x:Name="MassTextBox" Grid.Column="1" Grid.Row="0" Margin="5,0,0,0" Text="{Binding Component.SampleInfo.Grams, ElementName=Field}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+				<DockPanel Grid.Column="2" Grid.Row="0">
+					<TextBlock Text="g" VerticalAlignment="Center"/>
+					<TextBox x:Name="AliquotsTextBox" Margin="5,0,0,0" Text="{Binding Component.SampleInfo.AliquotsCount, ElementName=Field}" Padding="5,0" DockPanel.Dock="Right" VerticalContentAlignment="Center"/>
+					<TextBlock Text="Aliquots:" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="10,0,0,0"/>
+					<Border/>
+				</DockPanel>
+			</Grid>
+
+			<Grid Margin="0,5,0,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition SharedSizeGroup="Label"/>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto" SharedSizeGroup="Remainder"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition SharedSizeGroup="Standard"/>
+				</Grid.RowDefinitions>
+				<TextBlock Text="Port Type:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+				<TextBox Text="{Binding Component.PortType, ElementName=Field}"  Grid.Column="1" Grid.Row="0" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
+				<CheckBox IsChecked="{Binding Component.NotifySampleFurnaceNeeded, ElementName=Field}" Content="Notify to raise sample furnace" Grid.Column="2" Grid.Row="0" Margin="5,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+			</Grid>
+
+			<Grid Margin="0,5,0,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition SharedSizeGroup="Label"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition SharedSizeGroup="Standard"/>
+				</Grid.RowDefinitions>
+				<TextBlock Text="Process:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+				<TextBox Text="{Binding Component.SampleInfo.Process, ElementName=Field}" Grid.Column="1" Margin="5,0,0,0" />
+			</Grid>
+
+			<Grid Margin="0,5,0,0">
+				<Grid.RowDefinitions>
+					<RowDefinition SharedSizeGroup="Standard"/>
+				</Grid.RowDefinitions>
+				<CheckBox x:Name="Taked13CCheckBox" IsChecked="{Binding Component.SampleInfo.Take_d13C, ElementName=Field}" Content="Take d13C" VerticalAlignment="Center"  VerticalContentAlignment="Center"/>
+			</Grid>
+
+			<Grid Margin="0,5,0,0">
+				<Grid.RowDefinitions>
+					<RowDefinition SharedSizeGroup="Standard"/>
+				</Grid.RowDefinitions>
+				<CheckBox x:Name="SulfurSuspectedCheckBox" IsChecked="{Binding Component.SampleInfo.SulfurSuspected, ElementName=Field}" Content="Sulfur suspected" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+			</Grid>
+		</StackPanel>
+		<ListBox x:Name="ChecklistBox" DockPanel.Dock="Bottom" Visibility="Collapsed"/>
+	</DockPanel>
+
+</views:View>

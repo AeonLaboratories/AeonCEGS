@@ -1,0 +1,13 @@
+﻿<views:HacsCanvas x:Class="AeonCegs.Views.Foreline"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:AeonCegs.Views"
+    xmlns:views="clr-namespace:HACS.WPF.Views;assembly=HACS.WPF"
+    mc:Ignorable="d" 
+    d:DesignHeight="50" d:DesignWidth="31"
+    Width="31" Height="50"
+    >
+    <Path Fill="{DynamicResource BodyBrush}" Stroke="{DynamicResource EdgeBrush}" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="m 13.5 13.5 v -13 h 8 v 13 h 9 v 8 h -9 v 28 h -8 v -28 h -13 v -8 z"/>
+</views:HacsCanvas>

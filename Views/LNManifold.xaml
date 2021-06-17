@@ -1,0 +1,59 @@
+﻿<views:HacsCanvas x:Class="AeonCegs.Views.LNManifold"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:AeonCegs.Views"
+    xmlns:views="clr-namespace:HACS.WPF.Views;assembly=HACS.WPF"
+    mc:Ignorable="d" 
+    d:DesignHeight="100" d:DesignWidth="275"
+    Width="275" Height="100"
+    x:Name="Field"
+    HelpText="LN manifold" 
+    Component="LNManifold"
+    Background="Transparent"
+    >
+    
+    <StackPanel>        
+        <views:Valve HelpText="LN Supply Valve" Component="vLNSupply" HorizontalAlignment="Right"/>
+        <Border BorderBrush="{DynamicResource EdgeBrush}" BorderThickness="1" Background="{DynamicResource FoamBrush}" >
+            <StackPanel>
+                <Grid>
+                    <StackPanel Margin="10,10,10,0">
+                        <Label Content="LN Manifold" HorizontalContentAlignment="Center" FontSize="10" Margin="0,10,0,10" Padding="0"/>
+                        <StackPanel Orientation="Horizontal" Canvas.Left="10" Canvas.Bottom="10">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type views:Valve}">
+                                    <Setter Property="Margin" Value="2"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <views:Valve HelpText="VTC LN Valve" Component="vLN_VTC"/>
+                            <views:Valve HelpText="CuAg Coldfinger LN Valve" Component="vLN_CuAg" />
+                            <views:Valve HelpText="MC Coldfinger LN Valve" Component="vLN_MC" />
+                            <views:Valve HelpText="GR1 Coldfinger LN Valve" Component="vLN_GR1" />
+                            <views:Valve HelpText="GR2 Coldfinger LN Valve" Component="vLN_GR2" />
+                            <views:Valve HelpText="GR3 Coldfinger LN Valve" Component="vLN_GR3" />
+                            <views:Valve HelpText="GR4 Coldfinger LN Valve" Component="vLN_GR4" />
+                            <views:Valve HelpText="GR5 Coldfinger LN Valve" Component="vLN_GR5" />
+                            <views:Valve HelpText="GR6 Coldfinger LN Valve" Component="vLN_GR6" />
+                            <views:Valve HelpText="Vial Port Coldfinger LN Valve" Component="vLN_VP" />
+                            <views:Valve HelpText="d13C Coldfinger LN Valve" Component="vLN_d13C" />
+                        </StackPanel>
+                    </StackPanel>
+                    <Label Padding="0,0,8,0" HorizontalAlignment="Right"
+                        AutomationProperties.HelpText="LN Level Sensor"  
+                        Content="{Binding Component.LevelSensor.Temperature, ElementName=Field, FallbackValue='-- °C'}" 
+                        ContentStringFormat="# °C"
+                        />
+                    
+                </Grid>
+                <Label FontSize="10" Margin="0" Padding="0" HorizontalAlignment="Center"                            
+                    AutomationProperties.HelpText="LN overflow sensor temperature" 
+                    Content="{Binding Component.OverflowSensor.Temperature, ElementName=Field, FallbackValue='Overflow sensor: -- °C' }"
+                    ContentStringFormat="Overflow sensor: # °C"
+                    />                
+                
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</views:HacsCanvas>

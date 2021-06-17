@@ -1,0 +1,480 @@
+﻿<views:ControlPanel x:TypeArguments="aeoncegs:AeonHacs" x:Class="AeonCegs.Views.ControlPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:aeoncegs="clr-namespace:AeonCegs"
+        xmlns:local="clr-namespace:AeonCegs.Views"
+		xmlns:wpf="clr-namespace:HACS.WPF;assembly=HACS.WPF"
+        xmlns:views="clr-namespace:HACS.WPF.Views;assembly=HACS.WPF"
+        xmlns:behaviors="clr-namespace:HACS.WPF.Behaviors;assembly=HACS.WPF"
+        xmlns:converters="clr-namespace:HACS.WPF.Converters;assembly=HACS.WPF"
+        mc:Ignorable="d" 
+        d:DesignHeight="585" d:DesignWidth="1040">
+
+	<views:ControlPanel.Resources>
+		<converters:TimeSpanToStringConverter x:Key="TimeSpanConverter"/>
+	</views:ControlPanel.Resources>
+
+	<!--The display space; might be a good idea to keep the Width-Height ratio near 16:9-->
+	<Canvas Width="1040" Height="585">
+
+		<!--This is here just to simplify references to View.Component properties-->
+		<views:HacsCanvas x:Name="Cegs" Component="Aeon CEGS 2" Visibility="Collapsed"/>
+
+		<StackPanel Canvas.Left="10" Canvas.Top="10">
+			<Label Content="System Uptime" HorizontalAlignment="Center" Padding="0" />
+			<Label x:Name="Uptime" Padding="3,0,3,0" HorizontalAlignment="Center" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}" BorderThickness="0.5" 
+                AutomationProperties.HelpText="System Uptime" 
+                Content="{Binding Component.Uptime, ElementName=Cegs, Converter={StaticResource TimeSpanConverter}, FallbackValue='100 23:59:59'}"
+                />
+		</StackPanel>
+
+		<!--LN and air manifolds-->
+		<StackPanel Canvas.Right="10" Canvas.Top="10">
+			<local:LNManifold />
+			<local:AirManifold Margin="0, 10, 0, 0"/>
+		</StackPanel>
+
+		<!--Sample Information-->
+
+		<!--Process Control & Information-->
+		<Border Canvas.Right="10" Canvas.Bottom="10" BorderThickness="0" >
+			<StackPanel Orientation="Horizontal">
+				<StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<Label x:Name="ProcessTime" Margin="2,2,3,2" Padding="3,0,3,0" HorizontalContentAlignment="Right" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}" BorderThickness="0.5"
+                            AutomationProperties.HelpText="Process Run Time" 
+                            Content="{Binding Component.ProcessTime, ElementName=Cegs, Converter={StaticResource TimeSpanConverter}, FallbackValue='23:59:59'}"
+                            />
+						<ComboBox x:Name="ProcessSelector" Margin="0,2,3,2" Padding="3,0,3,2" Width="300" IsEditable="False" SelectedIndex="0"
+                            AutomationProperties.HelpText="Process" 
+                            ItemsSource="{Binding Component.ProcessNames, ElementName=Cegs}" />
+
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<Label x:Name="ProcessStepTime" Margin="2,2,3,2" Padding="3,0,3,0" HorizontalContentAlignment="Right" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}" BorderThickness="0.5"
+                            AutomationProperties.HelpText="Process Step Time" 
+                            Content="{Binding Component.ProcessStep.Elapsed, ElementName=Cegs, Converter={StaticResource TimeSpanConverter}, FallbackValue='23:59:59'}"
+                            />
+						<Label Width="300" Margin="0,2,3,2" Padding="3,0,3,0" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}" BorderThickness="0.5"
+                            AutomationProperties.HelpText="Process Step" 
+                            Content="{Binding Component.ProcessStep.CurrentStep.Description, ElementName=Cegs, FallbackValue='n/a'}"
+                            />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<Label x:Name="ProcessSubstepTime" Margin="2,2,3,2" Padding="3,0,3,0" HorizontalContentAlignment="Right" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}" BorderThickness="0.5"
+                            AutomationProperties.HelpText="Process Substep Time" 
+                            Content="{Binding Component.ProcessSubStep.Elapsed, ElementName=Cegs, Converter={StaticResource TimeSpanConverter}, FallbackValue='23:59:59'}"
+                            />
+						<Label Width="300" Margin="0,2,3,2" Padding="3,0,3,0" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}" BorderThickness="0.5"
+                            AutomationProperties.HelpText="Process Substep" 
+                            Content="{Binding Component.ProcessSubStep.CurrentStep.Description, ElementName=Cegs, FallbackValue='n/a'}"
+                            />
+					</StackPanel>
+				</StackPanel>
+				<StackPanel>
+					<Button Margin="0,2,3,2" Padding="3,0,3,0" VerticalAlignment="Top" HorizontalAlignment="Right"
+                        Click="StartButton_Click"
+                        AutomationProperties.HelpText="Start the selected process"
+                        Content="Start"
+                        />
+				</StackPanel>
+			</StackPanel>
+		</Border>
+
+		<!--The main Schematic Interface-->
+		<Canvas Width="800" Height="400" Canvas.Left="110" Canvas.Top="30">
+
+			<!--Vacuum System-->
+			<views:View Width="150" Height="150" Canvas.Left="215" Canvas.Top="5" Background="Transparent" HelpText="Vacuum System" Component="VacuumSystem"/>
+			<views:TurboPump Canvas.Left="238" Canvas.Top="74" HelpText="Turbo pump" Component="HVPumpAndFan" />
+			<views:Switch Canvas.Left="218" Canvas.Top="74" Width="13" Height="29" HelpText="Turbo pump fan" Component="HVPumpAndFan" />
+
+			<views:FittingHorizontal Canvas.Left="262" Canvas.Top="84"/>
+			<views:FittingVertical Canvas.Left="246" Canvas.Top="116"/>
+			<local:VM Canvas.Left="67" Canvas.Top="138" HelpText="Vacuum manifold" Component="VacuumSystem" />
+			<views:EdwardsAimX Canvas.Left="87" Canvas.Top="116" HelpText="Low-pressure manometer" Component="VacuumSystem" />
+			<views:Mks901P Canvas.Left="116" Canvas.Top="128" HelpText="High-pressure manometer" Component="VacuumSystem" />
+			<views:Pressure Canvas.Left="110" Canvas.Top="110" 
+					Margin="{wpf:Anchor BottomCenter}"
+                    HelpText="Vacuum manifold pressure"
+                    Component="pVM"
+                    ContentStringFormat="0.0e0"/>
+
+			<views:ScrollPump Canvas.Left="282" Canvas.Top="11" HelpText="Roughing pump"/>
+			<views:FittingHorizontal Canvas.Left="320" Canvas.Top="26"/>
+			<views:FittingVertical Canvas.Left="297" Canvas.Top="49"/>
+			<views:Arrow LayoutTransform="{DynamicResource Right}" Canvas.Left="328" Canvas.Top="27"/>
+			<Grid Canvas.Left="349" Canvas.Top="13">
+				<views:Temperature HelpText="Ambient temperature" Component="tAmbient" ContentStringFormat="0.0" Grid.Row="0" Grid.Column="0"/>
+				<views:Pressure HelpText="Ambient pressure" Component="pAmbient" ContentStringFormat="0" Grid.Row="1" Grid.Column="0"/>
+				<Label Content="°C" Padding="1,0.5" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+			</Grid>
+
+			<local:Foreline Canvas.Left="284" Canvas.Top="71" HelpText="Vacuum foreline" Component="VacuumSystem"/>
+			<views:Mks722BLowPressure Canvas.Left="341" Canvas.Top="83" RenderTransform="{DynamicResource Right}"/>
+
+			<Canvas Canvas.Top="98" Canvas.Left="325" Width="65" Height="35" >
+				<views:Pressure VerticalAlignment="Top" HorizontalAlignment="Left"
+                    HelpText="Foreline pressure"
+                    Component="pForeline"
+                    ContentStringFormat="0.00"
+                    />
+			</Canvas>
+
+			<!--Inlet Manifold-->
+			<local:IM Canvas.Left="15" Canvas.Top="202" HelpText="Inlet manifold" Component="Section.IM" />
+			<views:Mks722BHighPressure Canvas.Left="40" Canvas.Top="202"/>
+			<views:Pressure Canvas.Top="198" Canvas.Left="45"
+					Margin="{wpf:Anchor BottomCenter}"
+                    HelpText="Inlet manifold pressure"
+                    Component="pIM"
+                    ContentStringFormat="0"
+                    DefaultContentString="1000"
+                    />
+
+			<local:InletPort Canvas.Top="275" Canvas.Left="8" HelpText="Inlet Port" Component="IP1"/>
+
+			<views:Arrow LayoutTransform="{DynamicResource Down}" Canvas.Left="16" Canvas.Top="181"/>
+			<TextBlock Canvas.Left="20" Canvas.Top="180" Margin="{wpf:Anchor BottomCenter}" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    O<Run Typography.Variants="Subscript">2</Run>
+			</TextBlock>
+			<views:Arrow Canvas.Left="16" Canvas.Top="284"/>
+			<Grid Canvas.Top="300" Canvas.Left="-6" Width="51" Height="35">
+				<Label Content="He" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+			</Grid>
+
+			<!--Variable Temperature Trap-->
+			<Rectangle Fill="{DynamicResource FoamBrush}" Canvas.Left="185" Canvas.Top="258" Width="23" Height="37" 
+                AutomationProperties.HelpText="Variable-temperature coldfinger"
+                views:View.Component="VTC"
+                />
+			<local:VTT Canvas.Left="106" Canvas.Top="204"
+                HelpText="Variable-temperature trap"
+                Component="Section.VTT"
+                Background="Transparent"
+                />
+			<views:Mks722BLowPressure Canvas.Left="167" Canvas.Top="178"/>
+			<Canvas Canvas.Top="166" Canvas.Left="83" Width="81" Height="38">
+				<views:Pressure Canvas.Right="0"
+                    HelpText="Variable-temperature trap pressure"
+                    Component="pVTT"
+                    ContentStringFormat="0.000" 
+                    />
+			</Canvas>
+			<Grid Canvas.Left="159" Canvas.Top="298" Width="75" Height="31">
+				<views:TemperatureWithSetpoint VerticalAlignment="Top" HorizontalAlignment="Center"
+                HelpText="VTC temperature"
+                Component="h_VTC"
+                ContentStringFormat="0"
+                />
+			</Grid>
+
+			<views:Arrow Canvas.Left="120" Canvas.Top="284"/>
+			<Grid Canvas.Left="98" Canvas.Top="300" Width="51" Height="35">
+				<Label Content="He" Margin="0" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+			</Grid>
+
+			<!--Copper-Silver Trap-->
+			<Rectangle Fill="{DynamicResource FoamBrush}" Canvas.Left="265" Canvas.Top="259" Width="23" Height="23" 
+                AutomationProperties.HelpText="Copper-silver trap coldfinger"
+                views:View.Component="ftc_CuAg"
+                />
+			<local:CuAg Canvas.Left="259" Canvas.Top="230"
+                HelpText="Copper-silver trap"
+                Component="Section.CuAg">
+				<views:Coldfinger9mm Canvas.Left="14" Canvas.Top="24" />
+			</local:CuAg>
+			<views:Heater Canvas.Left="298" Canvas.Top="230" Width="35" Height="23"
+                HelpText="Copper-silver trap heater"
+                Component="HC6HeaterB2.h_CuAg"
+                />
+
+			<!--Measurement Chamber-->
+			<Rectangle Fill="{DynamicResource FoamBrush}" Canvas.Top="259" Width="23" Height="23" 
+                AutomationProperties.HelpText="Measurement chamber coldfinger"
+                views:View.Component="ftc_MC" Canvas.Left="369"
+                />
+			<local:MC Canvas.Left="363" Canvas.Top="224"
+                HelpText="Measurement chamber"
+                Component="Section.MC"
+                >
+				<views:Coldfinger9mm Canvas.Left="14" Canvas.Top="30" Component="ftc_MC"/>
+			</local:MC>
+			<views:MksDmb Canvas.Left="370" Canvas.Top="203"/>
+			<Canvas Canvas.Top="165" Canvas.Left="304" Width="74" Height="58">
+				<Grid Canvas.Right="0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<views:Temperature HelpText="Measurement chamber temperature" Component="tMC" ContentStringFormat="0.00" Grid.Column="0" Grid.Row="0"/>
+					<views:Pressure HelpText="Measurement chamber pressure" Component="pMC" ContentStringFormat="0.00" Grid.Column="0" Grid.Row="1"/>
+					<Label Content="°C" Padding="1,0.5" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0"/>
+				</Grid>
+			</Canvas>
+
+			<views:CO2Chamber Canvas.Left="400" Canvas.Top="170"
+                HelpText="Upper aliquot chamber (MCU)"
+                Component="MCU"
+                />
+			<views:CO2Chamber Canvas.Left="400" Canvas.Top="276" RenderTransformOrigin="0.5,0.5"
+                HelpText="Lower aliquot chamber (MCL)"
+                Component="MCL"
+                >
+				<views:CO2Chamber.RenderTransform>
+					<TransformGroup>
+						<RotateTransform Angle="180"/>
+					</TransformGroup>
+				</views:CO2Chamber.RenderTransform>
+			</views:CO2Chamber>
+
+			<!--Split Chamber-->
+			<local:Split Canvas.Left="441" Canvas.Top="224"
+                HelpText="Split section"
+                Component="Section.Split"
+                />
+
+			<!--Graphite Manifold-->
+			<local:GM Canvas.Left="493" Canvas.Top="186" Background="Transparent"
+                x:Name="GraphiteManifold"
+                HelpText="Graphite manifold"
+                Component="Section.GM" MouseLeftButtonUp="GraphiteManifold_MouseLeftButtonUp"
+                />
+			<views:Mks722BHighPressure Canvas.Left="661" Canvas.Top="202"/>
+			<Canvas Canvas.Top="170" Canvas.Left="620" Width="58" Height="29" >
+				<views:Pressure Canvas.Right="0" Canvas.Bottom="0"
+                    HelpText="Graphite manifold pressure"
+                    Component="pGM"
+                    ContentStringFormat="0" 
+                    />
+			</Canvas>
+
+			<views:Arrow LayoutTransform="{DynamicResource Left}" Canvas.Left="709" Canvas.Top="187"/>
+			<Grid Canvas.Left="728" Canvas.Top="171" Width="51" Height="35">
+				<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" ClipToBounds="False">
+                    <Run Text="CO"/><Run Typography.Variants="Subscript" Text="2"/>
+				</TextBlock>
+			</Grid>
+
+
+			<views:Arrow LayoutTransform="{DynamicResource Left}" Canvas.Left="735" Canvas.Top="212"/>
+			<Grid  Canvas.Left="755" Canvas.Top="196" Width="51" Height="35">
+				<TextBlock Padding="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Run Text="H"/><Run Typography.Variants="Subscript" Text="2"/>
+				</TextBlock>
+			</Grid>
+			<views:Arrow LayoutTransform="{DynamicResource Left}" Canvas.Left="709" Canvas.Top="290"/>
+			<Grid Canvas.Left="728" Canvas.Top="274" Width="51" Height="35">
+				<Label Content="He" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
+			</Grid>
+
+			<!--Vial port-->
+			<Rectangle Fill="{DynamicResource FoamBrush}" Canvas.Top="326" Canvas.Left="656" Width="21" Height="27" 
+                    AutomationProperties.HelpText="Vial port coldfinger"
+                    views:View.Component="ftc_VP"/>
+			<views:NeedlePort Canvas.Top="306" Canvas.Left="662" 
+                    HelpText="Vial port"
+                    Component="VP"
+                >
+			</views:NeedlePort>
+
+			<!--GR1-->
+			<Rectangle Fill="{DynamicResource FoamBrush}" Canvas.Top="306" Width="23" Height="23" 
+                AutomationProperties.HelpText="GR1 coldfinger"
+                views:View.Component="ftc_GR1" Canvas.Left="499"
+                />
+			<views:GraphiteReactor Canvas.Left="500" Canvas.Top="276"
+                HelpText="Graphite reactor 1"
+                Component="GR1"
+                />
+			<views:Heater Canvas.Left="500" Canvas.Top="280" Elliptical="True" 
+                HelpText="GR1 heater"
+                Component="h_GR1"
+                />
+
+			<!--GR2-->
+			<Rectangle Fill="{DynamicResource FoamBrush}" Canvas.Top="306" Width="23" Height="23" 
+                AutomationProperties.HelpText="GR2 coldfinger"
+                views:View.Component="ftc_GR2" Canvas.Left="525"
+                />
+			<views:GraphiteReactor Canvas.Left="526" Canvas.Top="276"
+                HelpText="Graphite reactor 2"
+                Component="GR2"
+                />
+			<views:Heater Canvas.Left="526" Canvas.Top="280" Elliptical="True"
+                HelpText="GR2 heater"
+                Component="h_GR2"
+                />
+
+			<!--GR3-->
+			<Rectangle Fill="{DynamicResource FoamBrush}" Canvas.Top="306" Width="23" Height="23" 
+                AutomationProperties.HelpText="GR3 coldfinger"
+                views:View.Component="ftc_GR3" Canvas.Left="551"
+                />
+			<views:GraphiteReactor Canvas.Left="552" Canvas.Top="276"
+                HelpText="Graphite reactor 3"
+                Component="GR3"
+                />
+			<views:Heater Canvas.Left="552" Canvas.Top="280" Elliptical="True"
+                HelpText="GR3 heater"
+                Component="h_GR3"
+                />
+
+			<!--GR4-->
+			<Rectangle Fill="{DynamicResource FoamBrush}" Canvas.Top="306" Width="23" Height="23" 
+                AutomationProperties.HelpText="GR4 coldfinger"
+                views:View.Component="ftc_GR4" Canvas.Left="577"
+                />
+			<views:GraphiteReactor Canvas.Left="578" Canvas.Top="276"
+                HelpText="Graphite reactor 4"
+                Component="GR4"
+                />
+			<views:Heater Canvas.Left="578" Canvas.Top="280" Elliptical="True"
+                HelpText="GR4 heater"
+                Component="h_GR4"
+                />
+
+			<!--GR5-->
+			<Rectangle Fill="{DynamicResource FoamBrush}" Canvas.Top="306" Width="23" Height="23" 
+                AutomationProperties.HelpText="GR5 coldfinger"
+                views:View.Component="ftc_GR5" Canvas.Left="603"
+                />
+			<views:GraphiteReactor Canvas.Left="604" Canvas.Top="276"
+                HelpText="Graphite reactor 5"
+                Component="GR5"
+                />
+			<views:Heater Canvas.Left="604" Canvas.Top="280" Elliptical="True"
+                HelpText="GR5 heater"
+                Component="h_GR5"
+                />
+
+			<!--GR6-->
+			<Rectangle Fill="{DynamicResource FoamBrush}" Canvas.Top="306" Width="23" Height="23" 
+                AutomationProperties.HelpText="GR6 coldfinger"
+                views:View.Component="ftc_GR6" Canvas.Left="629"
+                />
+			<views:GraphiteReactor Canvas.Left="630" Canvas.Top="276"
+                HelpText="Graphite reactor 6"
+                Component="GR6"
+                />
+			<views:Heater Canvas.Left="630" Canvas.Top="280" Elliptical="True"
+                HelpText="GR6 heater"
+                Component="h_GR6"
+                />
+
+			<Canvas Canvas.Top="338" Canvas.Left="265" Width="384" Height="103">
+				<Grid x:Name="GraphiteReactorData" Canvas.Right="0" IsSharedSizeScope="True">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="5"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition SharedSizeGroup="Standard"/>
+						<RowDefinition SharedSizeGroup="Standard"/>
+						<RowDefinition SharedSizeGroup="Standard"/>
+						<RowDefinition SharedSizeGroup="Standard"/>
+					</Grid.RowDefinitions>
+
+					<TextBlock Text="Pressure" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+					<views:Pressure HelpText="GR1 pressure" Component="pGR1" ContentStringFormat="0" Grid.Column="2" Grid.Row="0"/>
+					<views:Pressure HelpText="GR2 pressure" Component="pGR2" ContentStringFormat="0" Grid.Column="3" Grid.Row="0"/>
+					<views:Pressure HelpText="GR3 pressure" Component="pGR3" ContentStringFormat="0" Grid.Column="4" Grid.Row="0"/>
+					<views:Pressure HelpText="GR4 pressure" Component="pGR4" ContentStringFormat="0" Grid.Column="5" Grid.Row="0"/>
+					<views:Pressure HelpText="GR5 pressure" Component="pGR5" ContentStringFormat="0" Grid.Column="6" Grid.Row="0"/>
+					<views:Pressure HelpText="GR6 pressure" Component="pGR6" ContentStringFormat="0" Grid.Column="7" Grid.Row="0"/>
+
+					<TextBlock Text="Oven" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+					<views:TemperatureWithSetpoint HelpText="GR1 oven" Component="h_GR1" ContentStringFormat="0" Grid.Column="2" Grid.Row="1"/>
+					<views:TemperatureWithSetpoint HelpText="GR2 oven" Component="h_GR2" ContentStringFormat="0" Grid.Column="3" Grid.Row="1"/>
+					<views:TemperatureWithSetpoint HelpText="GR3 oven" Component="h_GR3" ContentStringFormat="0" Grid.Column="4" Grid.Row="1"/>
+					<views:TemperatureWithSetpoint HelpText="GR4 oven" Component="h_GR4" ContentStringFormat="0" Grid.Column="5" Grid.Row="1"/>
+					<views:TemperatureWithSetpoint HelpText="GR5 oven" Component="h_GR5" ContentStringFormat="0" Grid.Column="6" Grid.Row="1"/>
+					<views:TemperatureWithSetpoint HelpText="GR6 oven" Component="h_GR6" ContentStringFormat="0" Grid.Column="7" Grid.Row="1"/>
+
+					<TextBlock Text="Coldfinger" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+					<views:Temperature HelpText="GR1 coldfinger" Component="ftc_GR1" ContentStringFormat="0" Grid.Column="2" Grid.Row="2"/>
+					<views:Temperature HelpText="GR2 coldfinger" Component="ftc_GR2" ContentStringFormat="0" Grid.Column="3" Grid.Row="2"/>
+					<views:Temperature HelpText="GR3 coldfinger" Component="ftc_GR3" ContentStringFormat="0" Grid.Column="4" Grid.Row="2"/>
+					<views:Temperature HelpText="GR4 coldfinger" Component="ftc_GR4" ContentStringFormat="0" Grid.Column="5" Grid.Row="2"/>
+					<views:Temperature HelpText="GR5 coldfinger" Component="ftc_GR5" ContentStringFormat="0" Grid.Column="6" Grid.Row="2"/>
+					<views:Temperature HelpText="GR6 coldfinger" Component="ftc_GR6" ContentStringFormat="0" Grid.Column="7" Grid.Row="2"/>
+
+					<TextBlock Text="Graphite No" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+					<TextBlock AutomationProperties.HelpText="GR1 Contents" views:View.Component="GR1" 
+                                Text="{Binding (views:View.Component).Contents, FallbackValue='-', TargetNullValue='-'}" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="3"/>
+					<TextBlock AutomationProperties.HelpText="GR2 Contents" views:View.Component="GR2"
+                                Text="{Binding (views:View.Component).Contents, FallbackValue='-', TargetNullValue='-'}" HorizontalAlignment="Center" Grid.Column="3" Grid.Row="3"/>
+					<TextBlock AutomationProperties.HelpText="GR3 Contents" views:View.Component="GR3" 
+                                Text="{Binding (views:View.Component).Contents, FallbackValue='-', TargetNullValue='-'}" HorizontalAlignment="Center" Grid.Column="4" Grid.Row="3"/>
+					<TextBlock AutomationProperties.HelpText="GR4 Contents" views:View.Component="GR4" 
+                                Text="{Binding (views:View.Component).Contents, FallbackValue='-', TargetNullValue='-'}" HorizontalAlignment="Center" Grid.Column="5" Grid.Row="3"/>
+					<TextBlock AutomationProperties.HelpText="GR5 Contents" views:View.Component="GR5" 
+                                Text="{Binding (views:View.Component).Contents, FallbackValue='-', TargetNullValue='-'}" HorizontalAlignment="Center" Grid.Column="6" Grid.Row="3"/>
+					<TextBlock AutomationProperties.HelpText="GR6 Contents" views:View.Component="GR6" 
+                                Text="{Binding (views:View.Component).Contents, FallbackValue='-', TargetNullValue='-'}" HorizontalAlignment="Center" Grid.Column="7" Grid.Row="3"/>
+				</Grid>
+			</Canvas>
+
+
+			<!--Valves-->
+			<views:Valve HelpText="IM-VM valve" Component="vIM_VM" Canvas.Left="62" Canvas.Top="206" />
+			<views:Valve HelpText="VTTR-VM valve" Component="vVTTR_VM" Canvas.Left="215" Canvas.Top="206" />
+			<views:Valve HelpText="Split-VM valve" Component="vSplit_VM" Canvas.Left="449" Canvas.Top="206" />
+			<views:Valve HelpText="GM-VM Valve (manual)" ToolTip="vGM_VM: Closed"  Background="{DynamicResource ClosedBrush}" Canvas.Left="501" Canvas.Top="206" />
+			<views:Valve HelpText="IM-VTTL valve" Component="vIM_VTTL" Canvas.Left="88" Canvas.Top="232" />
+			<views:Valve Canvas.Left="241" Canvas.Top="232" HelpText="VTTR-CuAg valve" Component="vVTTR_CuAg" />
+			<views:Valve Canvas.Left="345" Canvas.Top="232" HelpText="CuAg-MC valve" Component="vCuAg_MC" />
+			<views:Valve Canvas.Left="423" Canvas.Top="232" HelpText="MC-Split valve" Component="vMC_Split" />
+			<views:Valve Canvas.Left="475" Canvas.Top="232" HelpText="Split-GM valve" Component="vGM_Split" />
+			<views:Valve Canvas.Left="36" Canvas.Top="258" HelpText="IP-IM valve" Component="vIP1_IM" />
+			<views:Valve Canvas.Left="140" Canvas.Top="232" HelpText="VTTL-VTTR valve" Component="vVTTL_VTTR" />
+			<views:Valve Canvas.Left="397" Canvas.Top="206" HelpText="MC-MCU valve" Component="vMC_MCU" />
+			<views:Valve Canvas.Left="397" Canvas.Top="258" HelpText="MC-MCL valve" Component="vMC_MCL" />
+			<views:Valve Canvas.Left="501" Canvas.Top="258" HelpText="GR1-GM valve" Component="vGR1_GM" />
+			<views:Valve Canvas.Left="527" Canvas.Top="258" HelpText="GR2-GM valve" Component="vGR2_GM" />
+			<views:Valve Canvas.Left="553" Canvas.Top="258" HelpText="GR3-GM valve" Component="vGR3_GM" />
+			<views:Valve Canvas.Left="579" Canvas.Top="258" HelpText="GR4-GM valve" Component="vGR4_GM" />
+			<views:Valve Canvas.Left="605" Canvas.Top="258" HelpText="GR5-GM valve" Component="vGR5_GM" />
+			<views:Valve Canvas.Left="631" Canvas.Top="258" HelpText="GR6-GM valve" Component="vGR6_GM" />
+			<views:Valve Canvas.Left="657" Canvas.Top="258" HelpText="d13C-GM valve" Component="vd13C_GM" />
+			<views:Valve Canvas.Left="657" Canvas.Top="284" HelpText="VP-d13C valve" Component="vVP_d13C" />
+			<views:Valve Canvas.Left="10" Canvas.Top="206" HelpText="O2-IM valve" Component="vO2_IM" />
+			<views:Valve Canvas.Left="10" Canvas.Top="258" HelpText="He-IM valve" Component="vHe_IM" />
+			<views:Valve Canvas.Left="114" Canvas.Top="258" HelpText="He-VTTL valve" Component="vHe_VTTL" />
+			<views:Valve Canvas.Left="683" Canvas.Top="206" HelpText="CO2-GM valve" Component="vCO2_GM" />
+			<views:Valve Canvas.Left="683" Canvas.Top="258" HelpText="He-GM valve" Component="vHe_GM" />
+			<views:Valve Canvas.Left="709" Canvas.Top="232" HelpText="H2-GM valve" Component="vH2_GM" />
+			<views:Valve Canvas.Left="114" Canvas.Top="206" HelpText="VTT flow valve" Component="vVTT_flow" />
+			<views:Valve Canvas.Left="683" Canvas.Top="180" HelpText="CO2-GM flow valve" Component="vCO2_GM_flow" />
+			<views:Valve Canvas.Left="683" Canvas.Top="284" HelpText="He-GM flow valve" Component="vHe_GM_flow" />
+			<views:Valve Canvas.Left="709" Canvas.Top="206" HelpText="H2-GM flow valve" Component="vH2_GM_flow" />
+			<views:Valve HelpText="Low Vacuum valve" Component="vLV" Canvas.Left="292" Canvas.Top="120" />
+			<views:Valve HelpText="High Vacuum valve" Component="vHV" Canvas.Left="241" Canvas.Top="120" />
+			<views:Valve HelpText="Backing valve" Component="vB" Canvas.Left="266" Canvas.Top="79" />
+			<views:Valve HelpText="Roughing valve (manual)" ToolTip="vR: Opened" Background="{DynamicResource OpenedBrush}" Canvas.Left="292" Canvas.Top="53"/>
+
+		</Canvas>
+	</Canvas>
+</views:ControlPanel>
